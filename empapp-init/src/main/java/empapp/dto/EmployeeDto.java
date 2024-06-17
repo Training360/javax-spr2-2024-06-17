@@ -1,15 +1,7 @@
 package empapp.dto;
 
-import lombok.Data;
-
 import java.util.List;
 
-@Data
-public class EmployeeDto {
+public record EmployeeDto(Long id, String name, List<AddressDto> addresses) {
 
-    private Long id;
-
-    private String name;
-
-    private List<AddressDto> addresses;
 }

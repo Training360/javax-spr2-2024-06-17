@@ -1,11 +1,5 @@
 package empapp.dto;
 
-import lombok.Data;
+public record AddressDto(Long id, String city) {
 
-@Data
-public class AddressDto {
-
-    private Long id;
-
-    private String city;
 }

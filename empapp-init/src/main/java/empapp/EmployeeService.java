@@ -36,7 +36,7 @@ public class EmployeeService {
         Employee employeeToModify = employeeRepository
                 .findById(id)
                 .orElseThrow(notFoundException(id));
-        employeeToModify.setName(command.getName());
+        employeeToModify.setName(command.name());
         return employeeMapper.toEmployeeDto(employeeToModify);
     }
 
