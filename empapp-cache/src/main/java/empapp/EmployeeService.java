@@ -3,6 +3,7 @@ package empapp;
 import empapp.dto.EmployeeDto;
 import empapp.entity.Employee;
 import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -26,6 +27,7 @@ public class EmployeeService {
         return employeeMapper.toEmployeesDto(employeeRepository.findAllWithAddresses());
     }
 
+    @Cacheable("employee")
     public EmployeeDto findEmployeeById(long id) {
         return employeeMapper.toEmployeeDto(employeeRepository.findByIdWithAddresses(id)
                         .orElseThrow(notFoundException(id)));
