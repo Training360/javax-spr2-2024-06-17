@@ -2,12 +2,17 @@ package empapp;
 
 import empapp.dto.EmployeeDto;
 import lombok.AllArgsConstructor;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -24,8 +29,15 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     @SuppressWarnings("unused")
-    public EmployeeDto findEmployeeById(@PathVariable("id") long id) {
-        return employeeService.findEmployeeById(id);
+    public ResponseEntity<EmployeeDto> findEmployeeById(@PathVariable("id") long id) {
+        var employee = employeeService.findEmployeeById(id);
+        return ResponseEntity
+            .ok()
+//                .eTag(Integer.toString(employee.hashCode()))
+                .cacheControl(CacheControl.maxAge(Duration.of(1, ChronoUnit.HOURS)))
+                .eTag(Integer.toString(employee.version()))
+                .header("Request-Id", UUID.randomUUID().toString())
+                .body(employee);
     }
 
     @PostMapping

@@ -2,6 +2,6 @@ package empapp.dto;
 
 import java.util.List;
 
-public record EmployeeDto(Long id, String name, List<AddressDto> addresses) {
+public record EmployeeDto(Long id, String name, int version, List<AddressDto> addresses) {
 
 }
