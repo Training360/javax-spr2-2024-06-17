@@ -3,7 +3,7 @@ package empapp;
 import empapp.dto.EmployeeDto;
 import empapp.entity.Employee;
 import lombok.AllArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -17,12 +17,15 @@ public class EmployeeService {
 
     private EmployeeMapper employeeMapper;
 
+    @CachePut(value = "employee", key="#result.id()")
+    @CacheEvict(value = "employees", allEntries = true)
     public EmployeeDto createEmployee(EmployeeDto command) {
         Employee employee = employeeMapper.toEmployee(command);
         employeeRepository.save(employee);
         return employeeMapper.toEmployeeDto(employee);
     }
 
+    @Cacheable("employees")
     public List<EmployeeDto> listEmployees() {
         return employeeMapper.toEmployeesDto(employeeRepository.findAllWithAddresses());
     }
@@ -34,6 +37,9 @@ public class EmployeeService {
     }
 
     @Transactional
+//    @CacheEvict(value = "employee", key="#id")
+    @CachePut(value = "employee", key="#id")
+    @CacheEvict(value = "employees", allEntries = true)
     public EmployeeDto updateEmployee(long id, EmployeeDto command) {
         Employee employeeToModify = employeeRepository
                 .findById(id)
@@ -42,6 +48,10 @@ public class EmployeeService {
         return employeeMapper.toEmployeeDto(employeeToModify);
     }
 
+    @Caching(evict = {
+            @CacheEvict("employee"),
+            @CacheEvict(value = "employees", allEntries = true)
+    })
     public void deleteEmployee(long id) {
         Employee employee = employeeRepository.findByIdWithAddresses(id)
                 .orElseThrow(notFoundException(id));
