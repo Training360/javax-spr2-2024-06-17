@@ -1,5 +1,7 @@
 package empapp.dto;
 
-public record AddressDto(Long id, String city) {
+import java.io.Serializable;
+
+public record AddressDto(Long id, String city) implements Serializable {
 
 }
