@@ -38,6 +38,7 @@ public class EmpappWebsocketClientApplication implements CommandLineRunner {
 		stompClient.connect("ws://localhost:8080/websocket-endpoint",
 				new MyStompMessageHandler());
 
+		log.info("Press any button");
 		new Scanner(System.in).nextLine();
 	}
 }
