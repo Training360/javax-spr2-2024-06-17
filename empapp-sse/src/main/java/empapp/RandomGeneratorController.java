@@ -33,7 +33,14 @@ public class RandomGeneratorController {
         var invalidEmitters = new ArrayList<>();
         for (var emitter : emitters) {
             try {
-                emitter.send(number);
+                var builder = SseEmitter.event()
+                        .id(UUID.randomUUID().toString())
+                        .comment("random number")
+                        .name("random_number")
+                        .reconnectTime(10_000)
+                        .data(number);
+
+                emitter.send(builder);
             } catch (Throwable t) {
 //                log.error("Can not send", ioe);
                 invalidEmitters.add(emitter);
