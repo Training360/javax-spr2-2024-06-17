@@ -1,13 +1,20 @@
 package employees;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EmpappWebsocketClientApplication {
+@Slf4j
+public class EmpappWebsocketClientApplication implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmpappWebsocketClientApplication.class, args);
 	}
 
+	@Override
+	public void run(String... args) throws Exception {
+		log.info("Hello Command Line");
+	}
 }
