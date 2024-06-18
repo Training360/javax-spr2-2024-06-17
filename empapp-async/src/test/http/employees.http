@@ -44,3 +44,6 @@ Content-Type: application/json
 ### Delete
 
 DELETE http://localhost:8080/api/employees/2
+
+### Long process
+GET http://localhost:8080/api/long-process
