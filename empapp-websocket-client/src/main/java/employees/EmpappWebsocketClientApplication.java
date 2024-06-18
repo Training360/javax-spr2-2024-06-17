@@ -18,6 +18,7 @@ import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 @Slf4j
@@ -35,10 +36,20 @@ public class EmpappWebsocketClientApplication implements CommandLineRunner {
 		var stompClient = new WebSocketStompClient(sockJsClient);
 		stompClient.setMessageConverter(new MappingJackson2MessageConverter());
 
-		stompClient.connect("ws://localhost:8080/websocket-endpoint",
+		var result = stompClient.connectAsync("ws://localhost:8080/websocket-endpoint",
 				new MyStompMessageHandler());
 
-		log.info("Press any button");
-		new Scanner(System.in).nextLine();
+		var session = result.get(5, TimeUnit.SECONDS);
+
+//		log.info("Press any button");
+//		new Scanner(System.in).nextLine();
+
+		var line = "";
+		while (!"exit".equals(line)) {
+			line = new Scanner(System.in).nextLine();
+			log.info("send: {}", line);
+			session.send("/app/messages", new MessageCommand(line));
+		}
+
 	}
 }
