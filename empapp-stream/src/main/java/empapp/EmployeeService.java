@@ -23,9 +23,9 @@ public class EmployeeService {
         Employee employee = employeeMapper.toEmployee(command);
         employeeRepository.save(employee);
 
-        streamBridge.send("employee-events", command);
-
-        return employeeMapper.toEmployeeDto(employee);
+        var response = employeeMapper.toEmployeeDto(employee);
+        streamBridge.send("employee-events", response);
+        return response;
     }
 
     public List<EmployeeDto> listEmployees() {
