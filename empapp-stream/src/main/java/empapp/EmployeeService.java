@@ -3,6 +3,7 @@ package empapp;
 import empapp.dto.EmployeeDto;
 import empapp.entity.Employee;
 import lombok.AllArgsConstructor;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -16,9 +17,14 @@ public class EmployeeService {
 
     private EmployeeMapper employeeMapper;
 
+    private StreamBridge streamBridge;
+
     public EmployeeDto createEmployee(EmployeeDto command) {
         Employee employee = employeeMapper.toEmployee(command);
         employeeRepository.save(employee);
+
+        streamBridge.send("employee-events", command);
+
         return employeeMapper.toEmployeeDto(employee);
     }
 
