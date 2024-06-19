@@ -2,6 +2,7 @@ package empapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.cors.CorsConfiguration;
@@ -19,6 +20,7 @@ public class EmployeesApplication
 	}
 
 	@Bean
+	@ConditionalOnProperty(name = "employees.cors.filter.enabled", havingValue = "true")
 	public FilterRegistrationBean corsFilter() {
 		var source = new UrlBasedCorsConfigurationSource();
 		var config = new CorsConfiguration();
