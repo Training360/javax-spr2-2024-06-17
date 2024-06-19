@@ -52,6 +52,6 @@ Content-Type: text/xml
 <?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
     <soap:Body>
-        <listEmployees xmlns="http://empsoap.empapp/"/>
+        <listEmployees xmlns="http://training360.com/services/empapp"/>
     </soap:Body>
 </soap:Envelope>
