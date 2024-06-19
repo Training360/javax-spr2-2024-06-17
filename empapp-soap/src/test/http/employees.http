@@ -44,3 +44,14 @@ Content-Type: application/json
 ### Delete
 
 DELETE http://localhost:8080/api/employees/2
+
+### SOAP
+POST http://localhost:8080/services/employees
+Content-Type: text/xml
+
+<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <listEmployees xmlns="http://empsoap.empapp/"/>
+    </soap:Body>
+</soap:Envelope>
